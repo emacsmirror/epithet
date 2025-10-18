@@ -95,6 +95,11 @@ This only works for async shell commands (possibly started with
               (command (mapconcat #'identity command-list " ")))
     (format "*Async shell command: %s*" command)))
 
+(defun epithet-for-vterm ()
+  "Suggest a name for a `vterm-mode' buffer."
+  (when (and (derived-mode-p 'vterm-mode) (string-prefix-p "*vterm" (buffer-name)))
+    (format "*vterm %s*" (abbreviate-file-name default-directory))))
+
 (defun epithet-for-compilation ()
   "Suggest a name for a `compilation-mode' buffer."
   (when-let* (((derived-mode-p 'compilation-mode))
@@ -111,7 +116,7 @@ This only works for async shell commands (possibly started with
   :group 'convenience)
 
 (defcustom epithet-suggesters
-  '(epithet-for-eww-title epithet-for-Info epithet-for-help epithet-for-occur epithet-for-shell-command epithet-for-compilation)
+  '(epithet-for-eww-title epithet-for-Info epithet-for-help epithet-for-occur epithet-for-shell-command epithet-for-compilation epithet-for-vterm)
   "List of functions to suggest a name for the current buffer.
 Each function should either return a string suggestion or nil."
   :type 'hook
